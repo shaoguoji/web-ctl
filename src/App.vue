@@ -5,10 +5,12 @@ import FaderControl from './components/FaderControl.vue'
 import LogWindow from './components/LogWindow.vue'
 
 // WebSocket 连接相关
-const wsUrl = ref('ws://127.0.0.1:1234/')
+const wsUrl = ref('ws://172.20.10.3:1234/ws')
 const ws = ref(null)
 const wsStatus = ref('disconnected')
 const logWindow = ref(null)
+const pidControl = ref(null)
+const faderControl = ref(null)
 
 function sendWSData(data) {
   if (ws.value && wsStatus.value === 'connected') {
@@ -28,8 +30,14 @@ function connectWS() {
   }
   wsStatus.value = 'connecting'
   
-  logWindow.value?.addLog(`正在连接到 ${wsUrl.value}`, 'info')
-  ws.value = new WebSocket(wsUrl.value)
+  // 确保URL格式正确
+  let url = wsUrl.value.trim()
+  if (!url.startsWith('ws://') && !url.startsWith('wss://')) {
+    url = 'ws://' + url
+  }
+  
+  logWindow.value?.addLog(`正在连接到 ${url}`, 'info')
+  ws.value = new WebSocket(url)
   ws.value.onopen = () => {
     wsStatus.value = 'connected'
     logWindow.value?.addLog('WebSocket连接成功', 'success')
@@ -38,12 +46,22 @@ function connectWS() {
     wsStatus.value = 'disconnected'
     logWindow.value?.addLog('WebSocket连接已断开', 'warning')
   }
-  ws.value.onerror = () => {
+  ws.value.onerror = (error) => {
     wsStatus.value = 'error'
-    logWindow.value?.addLog('WebSocket连接错误', 'error')
+    logWindow.value?.addLog(`WebSocket连接错误: ${error.message || '未知错误'}`, 'error')
   }
   ws.value.onmessage = (event) => {
     logWindow.value?.addLog(`收到数据: ${event.data}`, 'info')
+    try {
+      const data = JSON.parse(event.data)
+      if (data.type === 'pid') {
+        pidControl.value?.updatePid(data)
+      } else if (data.type === 'fader') {
+        faderControl.value?.updatePosition(data.position)
+      }
+    } catch (e) {
+      logWindow.value?.addLog(`解析消息失败: ${e.message}`, 'error')
+    }
   }
 }
 
@@ -76,10 +94,10 @@ function disconnectWS() {
     </div>
     <div class="control-panels">
       <div class="left-panel">
-        <PidControl />
+        <PidControl ref="pidControl" />
       </div>
       <div class="right-panel">
-        <FaderControl />
+        <FaderControl ref="faderControl" />
       </div>
     </div>
     <LogWindow ref="logWindow" />

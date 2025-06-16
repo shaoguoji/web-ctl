@@ -22,14 +22,21 @@
 </template>
 
 <script setup>
-import { ref, inject, watch } from 'vue'
+import { ref, inject, watch, nextTick } from 'vue'
 
 const sendWSData = inject('sendWSData')
 const pos = ref(2048)
 let debounceTimer = null
+let lastManualUpdate = Date.now()
+let isUpdatingFromServer = false
 
 // 监听位置变化并发送数据
 watch(pos, (newPos) => {
+  // 如果是服务器更新触发的，不发送数据
+  if (isUpdatingFromServer) {
+    return
+  }
+
   // 确保值在有效范围内
   if (newPos > 4095) {
     pos.value = 4095
@@ -40,6 +47,8 @@ watch(pos, (newPos) => {
     return
   }
 
+  lastManualUpdate = Date.now()
+  
   // 清除之前的定时器
   if (debounceTimer) {
     clearTimeout(debounceTimer)
@@ -53,6 +62,34 @@ watch(pos, (newPos) => {
     }
     sendWSData(data)
   }, 100) // 100ms 防抖
+})
+
+function updatePosition(newPos) {
+  const now = Date.now()
+  // 如果距离上次手动更新不到1秒，则不自动同步
+  if (now - lastManualUpdate < 1000) {
+    return
+  }
+  
+  // 确保值在有效范围内
+  if (newPos > 4095) {
+    newPos = 4095
+  }
+  if (newPos < 0) {
+    newPos = 0
+  }
+  
+  isUpdatingFromServer = true
+  pos.value = newPos
+  // 使用 nextTick 确保在下一个事件循环中重置标志
+  nextTick(() => {
+    isUpdatingFromServer = false
+  })
+}
+
+// 暴露方法给父组件
+defineExpose({
+  updatePosition
 })
 </script>
 

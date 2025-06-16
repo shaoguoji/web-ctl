@@ -36,7 +36,11 @@ const pidList = reactive([
   },
 ])
 
+let lastManualUpdate = Date.now()
+let autoSyncTimer = null
+
 function setPid(idx) {
+  lastManualUpdate = Date.now()
   const data = {
     type: 'pid',
     target: pidList[idx].label,
@@ -47,6 +51,29 @@ function setPid(idx) {
   }
   sendWSData(data)
 }
+
+function updatePid(data) {
+  const now = Date.now()
+  // 如果距离上次手动更新不到1秒，则不自动同步
+  if (now - lastManualUpdate < 1000) {
+    return
+  }
+  
+  const pidBlock = pidList.find(p => p.label === data.target)
+  if (pidBlock) {
+    Object.entries(data.params).forEach(([key, value]) => {
+      const param = pidBlock.params.find(p => p.key === key)
+      if (param) {
+        param.value = value
+      }
+    })
+  }
+}
+
+// 暴露方法给父组件
+defineExpose({
+  updatePid
+})
 </script>
 
 <style scoped>
