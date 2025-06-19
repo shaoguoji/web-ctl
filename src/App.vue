@@ -5,7 +5,7 @@ import FaderControl from './components/FaderControl.vue'
 import LogWindow from './components/LogWindow.vue'
 
 // WebSocket 连接相关
-const wsUrl = ref('ws://172.20.10.3:1234/ws')
+const wsUrl = ref('ws://192.168.2.79:1234/')
 const ws = ref(null)
 const wsStatus = ref('disconnected')
 const logWindow = ref(null)
