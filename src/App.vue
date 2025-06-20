@@ -114,12 +114,16 @@ function disconnectWS() {
   padding: 32px;
   padding-bottom: 232px; /* 为日志窗口留出空间 */
 }
+
 .ws-config {
   display: flex;
   align-items: center;
   gap: 12px;
   margin-bottom: 18px;
+  flex-wrap: wrap;
+  justify-content: center;
 }
+
 .ws-input {
   width: 200px;
   margin-left: 4px;
@@ -128,32 +132,160 @@ function disconnectWS() {
   border: 1px solid #aaa;
   border-radius: 4px;
 }
+
 .ws-status[data-status='connected'] { color: green; }
 .ws-status[data-status='disconnected'] { color: #888; }
 .ws-status[data-status='connecting'] { color: orange; }
 .ws-status[data-status='error'] { color: red; }
+
 .control-panels {
   display: flex;
   flex-direction: row;
   justify-content: center;
   gap: 48px;
   margin-top: 32px;
+  width: 100%;
+  max-width: 1200px;
 }
+
 .left-panel {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   min-width: 400px;
+  flex: 1;
 }
+
 .right-panel {
   display: flex;
   flex-direction: column;
   align-items: center;
+  flex: 1;
 }
+
 .title {
   font-size: 2em;
   font-weight: bold;
   text-align: center;
   margin-bottom: 32px;
+}
+
+/* 响应式布局 - 平板设备 */
+@media (max-width: 1024px) {
+  .main-layout {
+    padding: 24px;
+    padding-bottom: 200px;
+  }
+  
+  .control-panels {
+    gap: 32px;
+    margin-top: 24px;
+  }
+  
+  .left-panel {
+    min-width: 320px;
+  }
+  
+  .title {
+    font-size: 1.8em;
+    margin-bottom: 24px;
+  }
+}
+
+/* 响应式布局 - 手机设备 */
+@media (max-width: 768px) {
+  .main-layout {
+    padding: 16px;
+    padding-bottom: 180px;
+  }
+  
+  .ws-config {
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  
+  .ws-input {
+    width: 100%;
+    max-width: 300px;
+    margin: 0;
+  }
+  
+  .control-panels {
+    flex-direction: column;
+    gap: 24px;
+    margin-top: 16px;
+  }
+  
+  .left-panel {
+    min-width: auto;
+    width: 100%;
+    align-items: center;
+  }
+  
+  .right-panel {
+    width: 100%;
+  }
+  
+  .title {
+    font-size: 1.5em;
+    margin-bottom: 16px;
+  }
+}
+
+/* 响应式布局 - 小屏手机 */
+@media (max-width: 480px) {
+  .main-layout {
+    padding: 12px;
+    padding-bottom: 160px;
+  }
+  
+  .ws-config {
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+  
+  .ws-input {
+    max-width: 250px;
+    font-size: 14px;
+  }
+  
+  .control-panels {
+    gap: 16px;
+    margin-top: 12px;
+  }
+  
+  .title {
+    font-size: 1.3em;
+    margin-bottom: 12px;
+  }
+}
+
+/* 响应式布局 - 超小屏手机 */
+@media (max-width: 360px) {
+  .main-layout {
+    padding: 8px;
+    padding-bottom: 140px;
+  }
+  
+  .ws-config {
+    gap: 4px;
+    margin-bottom: 8px;
+  }
+  
+  .ws-input {
+    max-width: 200px;
+    font-size: 12px;
+  }
+  
+  .control-panels {
+    gap: 12px;
+    margin-top: 8px;
+  }
+  
+  .title {
+    font-size: 1.1em;
+    margin-bottom: 8px;
+  }
 }
 </style>

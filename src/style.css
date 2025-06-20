@@ -28,6 +28,7 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 h1 {
@@ -45,6 +46,7 @@ button {
   background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
+  touch-action: manipulation;
 }
 button:hover {
   border-color: #646cff;
@@ -63,6 +65,105 @@ button:focus-visible {
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* 响应式布局 - 平板设备 */
+@media (max-width: 1024px) {
+  #app {
+    padding: 1.5rem;
+  }
+  
+  h1 {
+    font-size: 2.8em;
+  }
+  
+  button {
+    padding: 0.5em 1em;
+    font-size: 0.95em;
+  }
+}
+
+/* 响应式布局 - 手机设备 */
+@media (max-width: 768px) {
+  body {
+    min-width: auto;
+  }
+  
+  #app {
+    padding: 1rem;
+    max-width: 100%;
+  }
+  
+  h1 {
+    font-size: 2.2em;
+  }
+  
+  button {
+    padding: 0.4em 0.8em;
+    font-size: 0.9em;
+  }
+  
+  .card {
+    padding: 1.5em;
+  }
+}
+
+/* 响应式布局 - 小屏手机 */
+@media (max-width: 480px) {
+  #app {
+    padding: 0.8rem;
+  }
+  
+  h1 {
+    font-size: 1.8em;
+  }
+  
+  button {
+    padding: 0.3em 0.6em;
+    font-size: 0.85em;
+  }
+  
+  .card {
+    padding: 1em;
+  }
+}
+
+/* 响应式布局 - 超小屏手机 */
+@media (max-width: 360px) {
+  #app {
+    padding: 0.6rem;
+  }
+  
+  h1 {
+    font-size: 1.5em;
+  }
+  
+  button {
+    padding: 0.25em 0.5em;
+    font-size: 0.8em;
+  }
+  
+  .card {
+    padding: 0.8em;
+  }
+}
+
+/* 横屏模式优化 */
+@media (max-height: 500px) and (orientation: landscape) {
+  #app {
+    padding: 0.5rem;
+  }
+  
+  h1 {
+    font-size: 1.3em;
+  }
+  
+  button {
+    padding: 0.2em 0.4em;
+    font-size: 0.75em;
+  }
 }
 
 @media (prefers-color-scheme: light) {
@@ -75,5 +176,29 @@ button:focus-visible {
   }
   button {
     background-color: #f9f9f9;
+  }
+}
+
+/* 触摸设备优化 */
+@media (hover: none) and (pointer: coarse) {
+  button {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  input[type="range"] {
+    min-height: 44px;
+  }
+  
+  input[type="number"] {
+    min-height: 44px;
+    font-size: 16px; /* 防止iOS缩放 */
+  }
+}
+
+/* 高DPI屏幕优化 */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  button {
+    border-width: 0.5px;
   }
 }

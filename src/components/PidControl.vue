@@ -140,50 +140,65 @@ defineExpose({
   display: flex;
   flex-direction: column;
   gap: 24px;
+  width: 100%;
 }
+
 .pid-block {
   border: 3px solid #000;
   border-radius: 8px;
   padding: 16px 24px;
   background: #fff;
   min-width: 320px;
+  width: 100%;
+  max-width: 500px;
 }
+
 .pid-title {
   font-size: 1.4em;
   font-weight: bold;
   margin-bottom: 12px;
   text-align: left;
 }
+
 .pid-row {
   display: flex;
   align-items: center;
   margin-bottom: 10px;
+  flex-wrap: wrap;
 }
+
 .pid-label {
   width: 32px;
   font-size: 1.1em;
+  flex-shrink: 0;
 }
+
 .slider-container {
   flex: 1;
   margin: 0 10px;
   display: flex;
   flex-direction: column;
+  min-width: 200px;
 }
+
 .pid-slider {
   accent-color: #6cf;
   height: 4px;
   margin-bottom: 4px;
 }
+
 .slider-labels {
   display: flex;
   justify-content: space-between;
   font-size: 0.8em;
   color: #666;
 }
+
 .slider-min, .slider-center, .slider-max {
   flex: 1;
   text-align: center;
 }
+
 .pid-input {
   width: 60px;
   text-align: center;
@@ -191,7 +206,9 @@ defineExpose({
   border-radius: 4px;
   font-size: 1em;
   margin-left: 4px;
+  flex-shrink: 0;
 }
+
 .pid-set {
   float: right;
   background: #6cf;
@@ -202,5 +219,143 @@ defineExpose({
   font-weight: bold;
   margin-top: 8px;
   cursor: pointer;
+}
+
+/* 响应式布局 - 平板设备 */
+@media (max-width: 1024px) {
+  .pid-panel {
+    gap: 20px;
+  }
+  
+  .pid-block {
+    padding: 14px 20px;
+    min-width: 280px;
+  }
+  
+  .pid-title {
+    font-size: 1.3em;
+    margin-bottom: 10px;
+  }
+  
+  .slider-container {
+    min-width: 180px;
+  }
+}
+
+/* 响应式布局 - 手机设备 */
+@media (max-width: 768px) {
+  .pid-panel {
+    gap: 16px;
+  }
+  
+  .pid-block {
+    padding: 12px 16px;
+    min-width: auto;
+    max-width: 100%;
+  }
+  
+  .pid-title {
+    font-size: 1.2em;
+    margin-bottom: 8px;
+    text-align: center;
+  }
+  
+  .pid-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  
+  .pid-label {
+    width: auto;
+    text-align: center;
+    margin-bottom: 4px;
+  }
+  
+  .slider-container {
+    margin: 0;
+    min-width: auto;
+  }
+  
+  .pid-input {
+    width: 100%;
+    margin: 0;
+    margin-top: 4px;
+  }
+  
+  .pid-set {
+    float: none;
+    width: 100%;
+    margin-top: 12px;
+  }
+}
+
+/* 响应式布局 - 小屏手机 */
+@media (max-width: 480px) {
+  .pid-panel {
+    gap: 12px;
+  }
+  
+  .pid-block {
+    padding: 10px 12px;
+  }
+  
+  .pid-title {
+    font-size: 1.1em;
+    margin-bottom: 6px;
+  }
+  
+  .pid-row {
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+  
+  .slider-labels {
+    font-size: 0.7em;
+  }
+  
+  .pid-input {
+    font-size: 0.9em;
+  }
+  
+  .pid-set {
+    font-size: 1em;
+    padding: 5px 16px;
+  }
+}
+
+/* 响应式布局 - 超小屏手机 */
+@media (max-width: 360px) {
+  .pid-panel {
+    gap: 8px;
+  }
+  
+  .pid-block {
+    padding: 8px 10px;
+  }
+  
+  .pid-title {
+    font-size: 1em;
+    margin-bottom: 4px;
+  }
+  
+  .pid-row {
+    gap: 4px;
+    margin-bottom: 8px;
+  }
+  
+  .slider-labels {
+    font-size: 0.6em;
+  }
+  
+  .pid-input {
+    font-size: 0.8em;
+  }
+  
+  .pid-set {
+    font-size: 0.9em;
+    padding: 4px 12px;
+  }
 }
 </style> 
